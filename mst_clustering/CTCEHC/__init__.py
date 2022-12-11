@@ -1,8 +1,6 @@
-from tqdm import tqdm
 import networkx as nx
 import numpy as np
 from scipy.spatial.distance import pdist, squareform
-import matplotlib.pyplot as plt
 import warnings
 
 
@@ -146,7 +144,6 @@ class CTCEHC:
 
     def final_clustering(self):
         distances = {(e[0], e[1]): self.__inter_cluster_distance(e[0], e[1]) for e in self.small_tree.edges}
-        print("Distances", distances)
         while self.kprimprim > self.K and any(map(lambda e: self.__cut_edge_constrait_II(e[0], e[1]),
                       self.small_tree.edges)):
 
@@ -188,7 +185,7 @@ class CTCEHC:
             if len(np.unique(self.labels)) < self.K:
                 warnings.warn(f"Produced {self.kprimprim} clusters instead of {self.K}")
 
-        return self.labels, self.mst
+        return self.labels #, self.mst
 
 
 def main():
@@ -197,7 +194,8 @@ def main():
     data = np.vstack((data1, data2))
 
     MS = CTCEHC(K=1)
-    labels, mst = MS.fit_transform(data)
+    labels = MS.fit_transform(data)
+    print(labels)
     # label_dict = {i: labels[i] for i in range(mst.number_of_nodes())}
     # pos = {i: data[i, :] for i in range(data.shape[0])}
     # nx.draw(mst, labels=label_dict, pos=pos)
