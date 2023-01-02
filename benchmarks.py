@@ -32,7 +32,9 @@ SOFTWARE.
 import clustbench  # https://pypi.org/project/clustering-benchmarks/
 import os.path
 import numpy as np
+import pandas as pd
 import sys
+import gc
 
 
 ## TODO: change me: -------------------------------------------------------
@@ -42,7 +44,7 @@ data_path = os.path.join("..", "clustering-data-v1")
 
 results_path_base = os.path.join(".", "results")
 
-max_n = 1000
+max_n = 10000
 max_k = 16
 
 skip_batteries = ["h2mg", "g2mg", "mnist"]
@@ -50,8 +52,8 @@ skip_batteries = ["h2mg", "g2mg", "mnist"]
 import mst_clustering.HEMST
 import mst_clustering.CTCEHC
 algorithms = {
-    "HEMST": mst_clustering.HEMST.HEMST(),
-    "CTCEHC": mst_clustering.CTCEHC.CTCEHC(),
+    "HEMST": mst_clustering.HEMST.HEMST,
+    "CTCEHC": mst_clustering.CTCEHC.CTCEHC,
 }
 
 
@@ -79,7 +81,8 @@ for battery in batteries:
             print("**skipping (n>max_n)**", file=sys.stderr)
             continue
 
-        ks = np.arange(2, max(max(b.n_clusters), max_k)+1)
+        ks = np.unique(b.n_clusters)
+        #ks = np.arange(2, max(max(b.n_clusters), max_k)+1)
         res = clustbench.load_results(
             results_path, ".", dataset, ks
         )
@@ -94,15 +97,36 @@ for battery in batteries:
               end="", file=sys.stderr)
         res = dict()
         for alg in algorithms:
+            print("%s... " % alg, end="", file=sys.stderr)
+            sys.stderr.flush()
+            gc.collect()
             res[alg] = clustbench.fit_predict_many(
-                algorithms[alg], b.data, ks
+                algorithms[alg](), b.data, ks
             )
 
         res = clustbench.transpose_results(res)
         for k in res:
-            clustbench.save_results(
-                os.path.join(results_path, "%s.result%d.gz" % (dataset, k)),
-                res[k]
-            )
+            try:
+                x = pd.DataFrame(res[k])
+                if not np.all(x.min().isin([0, 1])):
+                    raise ValueError("Minimal label neither 0 nor 1.")
+
+                mx = x.max()
+                if not mx[0] >= 1:
+                    raise ValueError("At least 1 cluster is necessary.")
+
+                if not np.all(mx == mx[0]):
+                    raise ValueError("All partitions should be of the same cardinality.")
+
+                if not np.all(x.apply(np.bincount).iloc[1:, :] > 0):
+                    raise ValueError("Denormalised label vector: Cluster IDs should be consecutive integers.")
+
+                clustbench.save_results(
+                    os.path.join(results_path, "%s.result%d.gz" % (dataset, k)),
+                    res[k]
+                )
+            except Exception as e:
+                print("**k=%d: %s** " % (k, str(e)), file=sys.stderr)
 
         print("done.", file=sys.stderr)
+
