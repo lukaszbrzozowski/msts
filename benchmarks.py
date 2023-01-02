@@ -32,6 +32,7 @@ SOFTWARE.
 import clustbench  # https://pypi.org/project/clustering-benchmarks/
 import os.path
 import numpy as np
+import sys
 
 
 ## TODO: change me: -------------------------------------------------------
@@ -46,9 +47,11 @@ max_k = 16
 
 skip_batteries = ["h2mg", "g2mg", "mnist"]
 
-import sklearn.cluster
+import mst_clustering.HEMST
+import mst_clustering.CTCEHC
 algorithms = {
-    "KMeans": sklearn.cluster.KMeans(),
+    "HEMST": mst_clustering.HEMST.HEMST(),
+    "CTCEHC": mst_clustering.CTCEHC.CTCEHC(),
 }
 
 
@@ -70,10 +73,10 @@ for battery in batteries:
 
         print("%s/%s [n=%d, d=%d]: " % (
             b.battery, b.dataset, b.data.shape[0], b.data.shape[1]
-        ), end="")
+        ), end="", file=sys.stderr)
 
         if b.data.shape[0] > max_n:
-            print("**skipping (n>max_n)**")
+            print("**skipping (n>max_n)**", file=sys.stderr)
             continue
 
         ks = np.arange(2, max(max(b.n_clusters), max_k)+1)
@@ -84,10 +87,11 @@ for battery in batteries:
 
         ks = list(sorted(set(ks) - set(res.keys())))
         if len(ks) == 0:
-            print("**skipping (all done)**")
+            print("**skipping (all done)**", file=sys.stderr)
             continue
 
-        print("k=%s... " % (", ".join([str(k) for k in ks])), end="")
+        print("k=%s... " % (", ".join([str(k) for k in ks])),
+              end="", file=sys.stderr)
         res = dict()
         for alg in algorithms:
             res[alg] = clustbench.fit_predict_many(
@@ -101,4 +105,4 @@ for battery in batteries:
                 res[k]
             )
 
-        print("done.")
+        print("done.", file=sys.stderr)

@@ -6,10 +6,10 @@ import matplotlib.pyplot as plt
 
 class HEMST:
     class RecHEMST:
-        def __init__(self, K: int,
+        def __init__(self, n_clusters: int,
                      data,
                      depth=0):
-            self.desired_k = K
+            self.desired_k = n_clusters
             self.n_c = 1
             self.emst = None
             self.data = data
@@ -69,7 +69,7 @@ class HEMST:
                     S[i, :] = centroid
                     for n in nodes:
                         current_mapping[n] = i
-                nh = HEMST.RecHEMST(K=self.desired_k,
+                nh = HEMST.RecHEMST(n_clusters=self.desired_k,
                                data=S, depth=self.depth + 1)
                 nh.fit()
                 new_labels = nh.get_labels()
@@ -88,13 +88,21 @@ class HEMST:
         def get_labels(self):
             return self.labels
 
-    def __init__(self, K: int):
-        self.K = K
 
-    def fit_transform(self, data):
+    def __init__(self, n_clusters=2):
+        self.K = n_clusters
+
+
+    def set_params(self, n_clusters=None):
+        if n_clusters is not None:
+            self.K = n_clusters
+
+
+    def fit_predict(self, data):
         nh = self.RecHEMST(self.K, data)
         nh.fit()
         return nh.get_labels()[:, 1]
+
 
 if __name__ == '__main__':
     data1 = np.random.multivariate_normal(np.array([0, 0]), np.diag(np.array([10, 10])), size=10)
@@ -104,7 +112,7 @@ if __name__ == '__main__':
     for i in range(20):
         plt.annotate(str(i), (data[i, 0], data[i, 1]))
     plt.show()
-    hemst = HEMST(K=2)
-    labs = hemst.fit_transform(data)
+    hemst = HEMST(n_clusters=2)
+    labs = hemst.fit_predict(data)
 
     print(labs)

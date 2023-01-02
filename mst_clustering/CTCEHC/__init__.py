@@ -5,15 +5,15 @@ import warnings
 
 
 class CTCEHC:
-    def __init__(self,
-                 K):
-        self.K = K
+    def __init__(self, n_clusters=2):
+        self.K = n_clusters
         self.mst = None
         self.labels = None
         self.small_tree = None
         self.kprim = None
         self.kprimprim = None
         self.n = None
+
     def __preliminary_partition(self, data):
         def __recurse(cur_center, cur_neigb):
             if self.labels[cur_neigb] != -1:
@@ -169,7 +169,13 @@ class CTCEHC:
         self.labels = np.array([transdict[i] for i in self.labels])
         self.small_tree = self.__generate_small_tree()
 
-    def fit_transform(self, data):
+
+    def set_params(self, n_clusters=None):
+        if n_clusters is not None:
+            self.K = n_clusters
+
+
+    def fit_predict(self, data):
         self.__preliminary_partition(data)
 
         if len(np.unique(self.labels)) > self.K:
@@ -193,8 +199,8 @@ def main():
     data2 = np.random.multivariate_normal(np.array([30, 30]), np.diag(np.array([10, 10])), size=100)
     data = np.vstack((data1, data2))
 
-    MS = CTCEHC(K=1)
-    labels = MS.fit_transform(data)
+    MS = CTCEHC(n_clusters=1)
+    labels = MS.fit_predict(data)
     print(labels)
     # label_dict = {i: labels[i] for i in range(mst.number_of_nodes())}
     # pos = {i: data[i, :] for i in range(data.shape[0])}
