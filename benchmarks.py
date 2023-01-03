@@ -44,8 +44,9 @@ data_path = os.path.join("..", "clustering-data-v1")
 
 results_path_base = os.path.join(".", "results")
 
-max_n = 10000
+max_n = 5000
 max_k = 16
+all_k = True
 
 skip_batteries = ["h2mg", "g2mg", "mnist"]
 
@@ -81,8 +82,11 @@ for battery in batteries:
             print("**skipping (n>max_n)**", file=sys.stderr)
             continue
 
-        ks = np.unique(b.n_clusters)
-        #ks = np.arange(2, max(max(b.n_clusters), max_k)+1)
+        if all_k:
+            ks = np.arange(2, max(max(b.n_clusters), max_k)+1)
+        else:
+            ks = np.unique(b.n_clusters)
+
         res = clustbench.load_results(
             results_path, ".", dataset, ks
         )
