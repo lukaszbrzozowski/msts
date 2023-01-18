@@ -40,13 +40,13 @@ import gc
 ## TODO: change me: -------------------------------------------------------
 
 # see <https://github.com/gagolews/clustering-data-v1>:
-data_path = os.path.join("..", "clustering-data-v1")
+data_path = os.path.join("..", "..", "clustering-data-v1")
 
 results_path_base = os.path.join(".", "results")
 
-max_n = 5000
-max_k = 16
-all_k = True
+max_n = 9999
+max_k = np.Inf
+all_k = False
 
 skip_batteries = ["h2mg", "g2mg", "mnist"]
 
@@ -86,6 +86,8 @@ for battery in batteries:
             ks = np.arange(2, max(max(b.n_clusters), max_k)+1)
         else:
             ks = np.unique(b.n_clusters)
+
+        ks = ks[ks <= max_k]
 
         res = clustbench.load_results(
             results_path, ".", dataset, ks
