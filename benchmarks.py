@@ -44,7 +44,7 @@ data_path = os.path.join("..", "..", "clustering-data-v1")
 
 results_path_base = os.path.join(".", "results")
 
-max_n = 9999
+max_n = 10_000
 max_k = np.Inf
 all_k = False
 

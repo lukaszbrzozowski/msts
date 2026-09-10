@@ -1,4 +1,4 @@
-from mst_clustering.utils.EMST import generate_full_emst
+from ..utils.EMST import generate_full_emst
 import numpy as np
 import networkx as nx
 import matplotlib.pyplot as plt
