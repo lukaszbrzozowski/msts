@@ -2,12 +2,14 @@ import networkx as nx
 import numpy as np
 from scipy.spatial.distance import pdist, squareform
 import warnings
+from ..utils.EMST import generate_full_emst
 
 
 class CTCEHC:
     def __init__(self, n_clusters=2):
         self.K = n_clusters
         self.mst = None
+        self.mst_weights = None
         self.labels = None
         self.small_tree = None
         self.kprim = None
@@ -18,19 +20,19 @@ class CTCEHC:
         def __recurse(cur_center, cur_neigb):
             if self.labels[cur_neigb] != -1:
                 return
-            if not weights[tuple(sorted([cur_center, cur_neigb]))] == min(
-                    [weights[tuple(sorted([neigb_neigb, cur_neigb]))] for neigb_neigb in self.mst[cur_neigb]]):
+            if not self.mst_weights[tuple(sorted([cur_center, cur_neigb]))] == min(
+                    [self.mst_weights[tuple(sorted([neigb_neigb, cur_neigb]))] for neigb_neigb in self.mst[cur_neigb]]):
                 return
             self.labels[cur_neigb] = self.labels[cur_center]
             for neigb in self.mst[cur_neigb]:
                 __recurse(cur_neigb, neigb)
         self.n = data.shape[0]
-        self.mst = self.__emst(data)
+        # self.mst = self.__emst(data)
+        self.mst, self.mst_weights = generate_full_emst(data)
         nodes = sorted(self.mst.degree, key=lambda x: x[1], reverse=True)
         self.kprim = 0
         self.labels = np.repeat(-1, self.n)
         i = 0
-        weights = nx.get_edge_attributes(self.mst, "weight")
         while any(self.labels < 0):
             xi = nodes[i][0]
             i += 1
@@ -119,16 +121,16 @@ class CTCEHC:
                 self.small_tree = self.__generate_small_tree()
                 self.kprimprim -= 1
 
-    @staticmethod
-    def __emst(data):
-        n = data.shape[0]
-        G = nx.complete_graph(n)
-        pd = squareform(pdist(data))
-        edge_weights = {(i, j): pd[i, j] for i in range(n) for j in range(i + 1, n)}
-        nx.set_edge_attributes(G, edge_weights, name="weight")
-        mst = nx.minimum_spanning_tree(G)
-
-        return mst
+    # @staticmethod
+    # def __emst(data):
+    #     n = data.shape[0]
+    #     G = nx.complete_graph(n)
+    #     pd = squareform(pdist(data))
+    #     edge_weights = {(i, j): pd[i, j] for i in range(n) for j in range(i + 1, n)}
+    #     nx.set_edge_attributes(G, edge_weights, name="weight")
+    #     mst = nx.minimum_spanning_tree(G)
+    #
+    #     return mst
 
     @staticmethod
     def __find_centroid(cluster_tree):

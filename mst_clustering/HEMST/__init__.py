@@ -27,6 +27,7 @@ class HEMST:
             average_weight = np.average(weights_values)
             weights_std = np.std(weights_values)
             for e in self.emst.edges():
+                if e[0] > e[1]: e = (e[1], e[0])
                 if self.weights[e] > average_weight + weights_std:
                     self.n_c += 1
                     self.emst.remove_edge(e[0], e[1])
