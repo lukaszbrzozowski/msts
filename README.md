@@ -18,10 +18,12 @@ For other algorithms based on MSTs, see, e.g.,:
 5. [*hdbscan*](https://hdbscan.readthedocs.io)
 
 
-
 ## References
 
-Grygorash O., Zhou Y., Jorgensen Z. (2006). Minimum spanning tree based clustering algorithms, in: Proc. ICTAI’06, pp. 1–9.
+Gagolewski M., Cena A., Bartoszuk M., Brzozowski Ł. (2025). Clustering with minimum spanning trees: How good can it be?.
+*Journal of Classification* **42**:90–112. DOI:[10.1007/s00357-024-09483-1](https://doi.org/10.1007/s00357-024-09483-1).
+
+Grygorash O., Zhou Y., Jorgensen Z. (2006). Minimum spanning tree based clustering algorithms. In: Proc. ICTAI’06, pp. 1–9.
 DOI: [10.1109/ICTAI.2006.83](https://doi.org/10.1109/ICTAI.2006.83).
 
 Ma  Y., Lin H., Wang Y., Huang H., He X. (2021). A multi-stage hierarchical clustering algorithm based on centroid of tree and cut edge
@@ -40,14 +42,10 @@ Gagolewski M. (2022). A framework for benchmarking clustering algorithms,
 URL: <https://clustering-benchmarks.gagolewski.com>.
 DOI: [10.1016/j.softx.2022.101270](https://doi.org/10.1016/j.softx.2022.101270).
 
-Gagolewski M., Cena A., Bartoszuk M., Brzozowski Ł. (2025). Clustering with minimum spanning trees: How good can it be?.
-*Journal of Classification* **42**:90–112. DOI:[10.1007/s00357-024-09483-1](https://doi.org/10.1007/s00357-024-09483-1).
-
 Gagolewski M., Bartoszuk M., Cena A. (2016). Genie: A new, fast, and outlier-resistant hierarchical clustering algorithm. *Information Sciences* **363**:8–23. DOI: 10.1016/j.ins.2016.05.003.
 
 Gagolewski M. (2021). genieclust: Fast and robust hierarchical clustering. *SoftwareX* **15**:100722.
-URL: <https://genieclust.gagolewski.com/>.
-DOI: 10.1016/j.softx.2021.100722.
+URL: <https://genieclust.gagolewski.com/>. DOI: 10.1016/j.softx.2021.100722.
 
 McInnes L., Healy J., Astels S. (2017). hdbscan: Hierarchical density based clustering. *The Journal of Open Source Software* **2**(11):205. DOI: 10.21105/joss.00205.
 
