@@ -27,9 +27,11 @@ import quitefastmst
 
 
 def generate_full_emst(data, *args, **kwargs):
-    w, e = quitefastmst.mst_euclid(data, *args, **kwargs)
-    edges = [(int(e[i,0]), int(e[i,1]), w[i]) for i in range(len(w))]
-    new_weights = {(int(e[i,0]), int(e[i,1])) : w[i] for i in range(len(w))}
+    w, e = quitefastmst.mst_euclid(data, M=0, algorithm='brute', *args, **kwargs)
+    edges = [(int(e[i,0]), int(e[i,1]), float(w[i])) for i in range(len(w))]
+    weights = {(int(e[i,0]), int(e[i,1])) : float(w[i]) for i in range(len(w))}
     mst = nx.Graph()
-    mst.add_weighted_edges_from(edges)
-    return mst, new_weights
+    n = data.shape[0]
+    mst.add_nodes_from(list(range(n)))
+    mst.add_weighted_edges_from(edges, weight='weight')
+    return mst, weights
