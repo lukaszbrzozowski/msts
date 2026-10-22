@@ -9,28 +9,26 @@ minimum spanning trees, including:
 4. Zahn's method (1971) \[experimental\]
 
 
-For other algorithms based on MSTs, see:
+For other algorithms based on MSTs, see, e.g.,:
 
 1. single linkage in [*sklearn*](https://scikit-learn.org/stable/index.html) and [*fastcluster*](https://pypi.org/project/fastcluster/)
-2. [*genieclust*](https://genieclust.gagolewski.com/) – the Genie algorithm
-3. [*ITM*](https://github.com/amueller/information-theoretic-mst) – information-theoretic clustering
-4. [*hdbscan*](https://hdbscan.readthedocs.io)
+2. [*lumbermark*](https://lumbermark.gagolewski.com/)
+3. [*genieclust*](https://genieclust.gagolewski.com/)s
+4. [*ITM*](https://github.com/amueller/information-theoretic-mst) – information-theoretic clustering
+5. [*hdbscan*](https://hdbscan.readthedocs.io)
 
 
 
 ## References
 
-HEMST and MSDR: 
-Grygorash, O., Zhou, Y., Jorgensen, Z., 2006. Minimum spanning tree based clustering algorithms, in: Proc. ICTAI’06, pp. 1–9. 
+Grygorash O., Zhou Y., Jorgensen Z. (2006). Minimum spanning tree based clustering algorithms, in: Proc. ICTAI’06, pp. 1–9.
 DOI: [10.1109/ICTAI.2006.83](https://doi.org/10.1109/ICTAI.2006.83).
 
-CTCEHC: 
-Ma, Y., Lin, H., Wang, Y., Huang, H., He, X., 2021. A multi-stage hierarchical clustering algorithm based on centroid of tree and cut edge
-constraint. Information Sciences 557, 194–219. 
+Ma  Y., Lin H., Wang Y., Huang H., He X. (2021). A multi-stage hierarchical clustering algorithm based on centroid of tree and cut edge
+constraint. *Information Sciences* **557**:194–219.
 DOI: [10.1016/j.ins.2020.12.016](https://doi.org/10.1016/j.ins.2020.12.016).
 
-Zahn's algoritm: 
-Zahn, C., 1971. Graph-theoretical methods for detecting and describing gestalt clusters. IEEE Transactions on Computers C-20, 68–86.
+Zahn C., (1971). Graph-theoretical methods for detecting and describing gestalt clusters. *IEEE Transactions on Computers* **C-20**:68–86.
 DOI: [10.1109/T-C.1971.223083](https://doi.org/10.1109/T-C.1971.223083).
 
 Campello R.J.G.B., Moulavi D., Sander J. (2013).
