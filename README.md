@@ -42,6 +42,9 @@ Gagolewski M. (2022). A framework for benchmarking clustering algorithms,
 URL: <https://clustering-benchmarks.gagolewski.com>.
 DOI: [10.1016/j.softx.2022.101270](https://doi.org/10.1016/j.softx.2022.101270).
 
+Gagolewski M., Cena A., Bartoszuk M., Brzozowski Ł. (2025). Clustering with minimum spanning trees: How good can it be?.
+*Journal of Classification* **42**:90–112. DOI:[10.1007/s00357-024-09483-1](https://doi.org/10.1007/s00357-024-09483-1).
+
 Gagolewski M., Bartoszuk M., Cena A. (2016). Genie: A new, fast, and outlier-resistant hierarchical clustering algorithm. *Information Sciences* **363**:8–23. DOI: 10.1016/j.ins.2016.05.003.
 
 Gagolewski M. (2021). genieclust: Fast and robust hierarchical clustering. *SoftwareX* **15**:100722.
